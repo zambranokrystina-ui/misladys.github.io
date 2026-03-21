@@ -1,0 +1,1001 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tu Perfil Energético · Espazio con Propósito</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --blanco:      #FDFAF5;
+  --crema:       #F5EDD8;
+  --crema2:      #EDE0C4;
+  --teal:        #2D7A7A;
+  --teal-claro:  #3D9999;
+  --teal-pale:   #EAF4F4;
+  --dorado:      #C8913A;
+  --dorado-claro:#E8C98A;
+  --terracota:   #C4613A;
+  --marron:      #5C3A2A;
+  --texto:       #2A2018;
+  --texto-suave: #7A6A58;
+  --borde:       rgba(200,145,58,0.18);
+  --borde-teal:  rgba(45,122,122,0.15);
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+
+body {
+  background: var(--blanco);
+  color: var(--texto);
+  font-family: 'Jost', sans-serif;
+  font-weight: 300;
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+body::before {
+  content: '';
+  position: fixed; inset: 0;
+  background:
+    radial-gradient(ellipse 70% 50% at 0% 0%,   rgba(45,122,122,0.06) 0%, transparent 55%),
+    radial-gradient(ellipse 60% 40% at 100% 100%, rgba(196,97,58,0.05) 0%, transparent 55%),
+    radial-gradient(ellipse 80% 60% at 50% 30%,  rgba(200,145,58,0.03) 0%, transparent 60%);
+  pointer-events: none; z-index: 0;
+}
+
+.contenedor {
+  position: relative; z-index: 1;
+  max-width: 700px;
+  margin: 0 auto;
+  padding: 0 24px 100px;
+}
+
+/* ── HEADER ── */
+.header {
+  text-align: center;
+  padding: 44px 0 36px;
+  border-bottom: 0.5px solid var(--borde);
+  margin-bottom: 48px;
+}
+.logo-wrap {
+  width: 72px; height: 72px;
+  margin: 0 auto 16px;
+  animation: flotar 6s ease-in-out infinite;
+}
+.logo-wrap img { width: 100%; height: 100%; object-fit: contain; }
+@keyframes flotar {
+  0%,100%{transform:translateY(0);}
+  50%{transform:translateY(-5px);}
+}
+.marca {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 12px;
+  letter-spacing: 0.38em;
+  text-transform: uppercase;
+  color: var(--texto-suave);
+}
+
+/* ── SELECTOR DE PERFIL ── */
+.selector-intro {
+  text-align: center;
+  margin-bottom: 40px;
+}
+.selector-eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  color: var(--teal);
+  margin-bottom: 18px;
+}
+.selector-eyebrow span { width: 24px; height: 0.5px; background: var(--teal); opacity: 0.5; }
+.selector-titulo {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(28px, 5vw, 40px);
+  font-weight: 300;
+  line-height: 1.25;
+  color: var(--texto);
+  margin-bottom: 12px;
+}
+.selector-titulo em { font-style: italic; color: var(--teal); }
+.selector-sub {
+  font-size: 15px;
+  color: var(--texto-suave);
+  line-height: 1.7;
+  max-width: 480px;
+  margin: 0 auto 32px;
+}
+
+/* tabs de perfil */
+.perfil-tabs {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 10px;
+  margin-bottom: 48px;
+}
+.tab {
+  padding: 14px 8px;
+  border: 0.5px solid var(--borde-teal);
+  border-radius: 12px;
+  background: #fff;
+  cursor: pointer;
+  text-align: center;
+  transition: all 0.25s ease;
+}
+.tab:hover {
+  border-color: var(--teal);
+  background: var(--teal-pale);
+  transform: translateY(-2px);
+}
+.tab.activo {
+  border-color: var(--teal);
+  background: var(--teal-pale);
+  box-shadow: 0 4px 16px rgba(45,122,122,0.12);
+}
+.tab-icono { font-size: 24px; margin-bottom: 6px; display: block; }
+.tab-nombre {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 14px;
+  font-weight: 400;
+  color: var(--texto);
+  display: block;
+  margin-bottom: 2px;
+}
+.tab-elem {
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--teal-claro);
+}
+
+/* ── BLOQUE DE RESULTADO ── */
+.resultado {
+  display: none;
+  animation: entrar 0.4s cubic-bezier(.4,0,.2,1) both;
+}
+.resultado.visible { display: block; }
+@keyframes entrar {
+  from{opacity:0;transform:translateY(16px);}
+  to{opacity:1;transform:translateY(0);}
+}
+
+/* hero del resultado */
+.res-hero {
+  background: #fff;
+  border: 0.5px solid var(--borde);
+  border-radius: 20px;
+  padding: 48px 40px 40px;
+  position: relative;
+  overflow: hidden;
+  margin-bottom: 24px;
+  box-shadow: 0 2px 32px rgba(42,32,24,0.05);
+}
+.res-hero::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0; height: 3px;
+  opacity: 0.7;
+}
+.res-hero.agua::before    { background: linear-gradient(90deg, #3D9999, #7BC8C8, #3D9999); }
+.res-hero.tierra::before  { background: linear-gradient(90deg, #5C7A2D, #9ABE5C, #5C7A2D); }
+.res-hero.fuego::before   { background: linear-gradient(90deg, #C4613A, #E8A070, #C4613A); }
+.res-hero.eter::before    { background: linear-gradient(90deg, #7A5C9A, #B89AD4, #7A5C9A); }
+
+.res-acento {
+  position: absolute;
+  top: -60px; right: -60px;
+  width: 200px; height: 200px;
+  border-radius: 50%;
+  pointer-events: none;
+  opacity: 0.06;
+}
+.agua .res-acento    { background: var(--teal); }
+.tierra .res-acento  { background: #5C7A2D; }
+.fuego .res-acento   { background: var(--terracota); }
+.eter .res-acento    { background: #7A5C9A; }
+
+.res-icono-wrap {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 24px;
+}
+.res-icono {
+  font-size: 48px;
+  line-height: 1;
+  flex-shrink: 0;
+}
+.res-meta { flex: 1; }
+.res-tipo {
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--teal-claro);
+  display: block;
+  margin-bottom: 4px;
+}
+.res-titulo {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(26px, 5vw, 36px);
+  font-weight: 300;
+  line-height: 1.2;
+  color: var(--texto);
+}
+.res-titulo em { font-style: italic; color: var(--teal); }
+.fuego .res-titulo em  { color: var(--terracota); }
+.tierra .res-titulo em { color: #5C7A2D; }
+.eter .res-titulo em   { color: #7A5C9A; }
+
+.res-desc {
+  font-size: 16px;
+  line-height: 1.85;
+  color: var(--texto-suave);
+  margin-bottom: 32px;
+}
+.res-desc strong { color: var(--texto); font-weight: 500; }
+
+/* señales del espacio */
+.senales {
+  background: var(--teal-pale);
+  border: 0.5px solid var(--borde-teal);
+  border-radius: 14px;
+  padding: 28px 28px 24px;
+  margin-bottom: 16px;
+}
+.senales-titulo {
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.26em;
+  text-transform: uppercase;
+  color: var(--teal);
+  margin-bottom: 18px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.senales-titulo::after {
+  content: '';
+  flex: 1;
+  height: 0.5px;
+  background: linear-gradient(90deg, var(--teal), transparent);
+  opacity: 0.3;
+}
+.senales-lista { list-style: none; }
+.senales-lista li {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 10px 0;
+  border-bottom: 0.5px solid rgba(45,122,122,0.1);
+  font-size: 14px;
+  line-height: 1.65;
+  color: var(--texto);
+}
+.senales-lista li:last-child { border-bottom: none; }
+.check-icon {
+  flex-shrink: 0;
+  width: 20px; height: 20px;
+  background: var(--teal);
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 10px;
+  color: #fff;
+  margin-top: 1px;
+  font-weight: 600;
+}
+
+/* ── SECCIÓN TRANSFORMACIÓN ── */
+.transformacion {
+  background: #fff;
+  border: 0.5px solid var(--borde);
+  border-radius: 20px;
+  padding: 40px;
+  margin-bottom: 24px;
+  box-shadow: 0 2px 24px rgba(42,32,24,0.04);
+}
+.transform-eyebrow {
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  color: var(--dorado);
+  margin-bottom: 16px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.transform-eyebrow::after {
+  content: '';
+  flex: 1; height: 0.5px;
+  background: linear-gradient(90deg, var(--dorado), transparent);
+  opacity: 0.3;
+}
+.transform-titulo {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(22px, 4vw, 30px);
+  font-weight: 300;
+  line-height: 1.35;
+  color: var(--texto);
+  margin-bottom: 20px;
+}
+.transform-titulo em { font-style: italic; color: var(--teal); }
+.transform-texto {
+  font-size: 15px;
+  line-height: 1.85;
+  color: var(--texto-suave);
+  margin-bottom: 28px;
+}
+.transform-texto strong { color: var(--texto); font-weight: 500; }
+
+/* antes/después */
+.antes-despues {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+  margin-bottom: 28px;
+}
+.ad-col {
+  border-radius: 12px;
+  padding: 20px;
+}
+.ad-antes {
+  background: rgba(196,97,58,0.05);
+  border: 0.5px solid rgba(196,97,58,0.15);
+}
+.ad-despues {
+  background: var(--teal-pale);
+  border: 0.5px solid var(--borde-teal);
+}
+.ad-label {
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  margin-bottom: 14px;
+  display: block;
+}
+.ad-antes .ad-label { color: var(--terracota); }
+.ad-despues .ad-label { color: var(--teal); }
+.ad-lista { list-style: none; }
+.ad-lista li {
+  font-size: 13px;
+  line-height: 1.6;
+  color: var(--texto-suave);
+  padding: 5px 0;
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+}
+.ad-antes .ad-lista li::before { content: '·'; color: var(--terracota); font-weight: 700; flex-shrink: 0; }
+.ad-despues .ad-lista li::before { content: '✦'; color: var(--teal); font-size: 9px; flex-shrink: 0; margin-top: 3px; }
+
+/* ── TESTIMONIO ── */
+.testimonio {
+  background: var(--crema);
+  border: 0.5px solid var(--borde);
+  border-radius: 16px;
+  padding: 32px;
+  margin-bottom: 24px;
+  position: relative;
+}
+.comilla {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 72px;
+  line-height: 0.6;
+  color: var(--dorado-claro);
+  opacity: 0.6;
+  position: absolute;
+  top: 24px; left: 28px;
+  pointer-events: none;
+}
+.testimonio-texto {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 19px;
+  font-style: italic;
+  font-weight: 300;
+  line-height: 1.65;
+  color: var(--texto);
+  padding-left: 20px;
+  margin-bottom: 20px;
+  position: relative;
+  z-index: 1;
+}
+.testimonio-autor {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding-left: 20px;
+}
+.autor-avatar {
+  width: 36px; height: 36px;
+  border-radius: 50%;
+  background: var(--teal-pale);
+  border: 0.5px solid var(--borde-teal);
+  display: flex; align-items: center; justify-content: center;
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 14px;
+  color: var(--teal);
+}
+.autor-nombre {
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--texto);
+  display: block;
+}
+.autor-desc {
+  font-size: 12px;
+  color: var(--texto-suave);
+}
+.estrellas {
+  color: var(--dorado);
+  font-size: 13px;
+  letter-spacing: 1px;
+  margin-bottom: 4px;
+  display: block;
+}
+
+/* ── CTA FINAL ── */
+.cta-final {
+  background: #fff;
+  border: 0.5px solid var(--borde);
+  border-radius: 20px;
+  padding: 44px 40px;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 4px 40px rgba(42,32,24,0.06);
+}
+.cta-final::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0; height: 2px;
+  background: linear-gradient(90deg, var(--teal), var(--dorado), var(--terracota));
+  opacity: 0.6;
+}
+.cta-acento-bg {
+  position: absolute;
+  bottom: -80px; right: -80px;
+  width: 280px; height: 280px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(45,122,122,0.05) 0%, transparent 70%);
+  pointer-events: none;
+}
+.cta-ornamento {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  margin-bottom: 24px;
+  opacity: 0.4;
+}
+.cta-ornamento::before,.cta-ornamento::after {
+  content: ''; flex: 1; max-width: 60px; height: 0.5px;
+}
+.cta-ornamento::before { background: linear-gradient(90deg, transparent, var(--dorado)); }
+.cta-ornamento::after  { background: linear-gradient(270deg, transparent, var(--dorado)); }
+.cta-rombo { width: 5px; height: 5px; background: var(--dorado); transform: rotate(45deg); }
+
+.cta-eyebrow {
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  color: var(--dorado);
+  margin-bottom: 16px;
+}
+.cta-titulo {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(26px, 5vw, 38px);
+  font-weight: 300;
+  line-height: 1.25;
+  color: var(--texto);
+  margin-bottom: 16px;
+}
+.cta-titulo em { font-style: italic; color: var(--teal); }
+.cta-texto {
+  font-size: 15px;
+  line-height: 1.8;
+  color: var(--texto-suave);
+  max-width: 440px;
+  margin: 0 auto 32px;
+}
+.cta-texto strong { color: var(--texto); font-weight: 500; }
+
+.sesion-incluye {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 10px;
+  margin-bottom: 36px;
+}
+.incluye-chip {
+  background: var(--teal-pale);
+  border: 0.5px solid var(--borde-teal);
+  border-radius: 99px;
+  padding: 7px 16px;
+  font-size: 12px;
+  color: var(--teal);
+  font-weight: 400;
+}
+
+.btn-principal {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 18px 40px;
+  background: var(--teal);
+  color: #fff;
+  border: none;
+  border-radius: 12px;
+  font-family: 'Jost', sans-serif;
+  font-size: 14px;
+  font-weight: 500;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: all 0.22s ease;
+  text-decoration: none;
+  margin-bottom: 12px;
+}
+.btn-principal:hover {
+  background: var(--teal-claro);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 28px rgba(45,122,122,0.28);
+}
+.btn-secundario {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 14px 32px;
+  background: none;
+  color: var(--texto-suave);
+  border: 0.5px solid var(--borde);
+  border-radius: 12px;
+  font-family: 'Jost', sans-serif;
+  font-size: 13px;
+  font-weight: 400;
+  letter-spacing: 0.08em;
+  cursor: pointer;
+  transition: all 0.22s ease;
+  text-decoration: none;
+  margin-left: 12px;
+}
+.btn-secundario:hover {
+  border-color: var(--teal);
+  color: var(--teal);
+}
+.cta-garantia {
+  font-size: 12px;
+  color: var(--texto-suave);
+  margin-top: 20px;
+  opacity: 0.7;
+  line-height: 1.6;
+}
+
+.flecha { display: inline-block; animation: moverFlecha 1.6s ease-in-out infinite; }
+@keyframes moverFlecha { 0%,100%{transform:translateX(0);} 50%{transform:translateX(4px);} }
+
+/* ornamento divisor */
+.divisor {
+  display: flex; align-items: center; gap: 14px;
+  margin: 32px 0; opacity: 0.3;
+}
+.divisor::before,.divisor::after {
+  content: ''; flex: 1; height: 0.5px;
+}
+.divisor::before { background: linear-gradient(90deg, transparent, var(--dorado)); }
+.divisor::after  { background: linear-gradient(270deg, transparent, var(--dorado)); }
+.div-rombo { width: 4px; height: 4px; background: var(--dorado); transform: rotate(45deg); }
+
+/* footer */
+.footer {
+  text-align: center;
+  padding: 48px 0 24px;
+  opacity: 0.4;
+}
+.footer p {
+  font-size: 11px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--texto-suave);
+}
+
+/* responsive */
+@media(max-width: 540px) {
+  .perfil-tabs { grid-template-columns: repeat(2, 1fr); }
+  .antes-despues { grid-template-columns: 1fr; }
+  .res-hero { padding: 32px 24px 28px; }
+  .transformacion { padding: 28px 20px; }
+  .cta-final { padding: 36px 24px; }
+  .btn-secundario { margin-left: 0; margin-top: 10px; }
+}
+</style>
+</head>
+<body>
+<div class="contenedor">
+
+  <!-- HEADER -->
+  <div class="header">
+    <div class="logo-wrap">
+      <img src="https://i.ibb.co/TDRcVvxj/Dise-o-sin-t-tulo-6.png" alt="Espazio con Propósito">
+    </div>
+    <p class="marca">Espazio con Propósito</p>
+  </div>
+
+  <!-- SELECTOR -->
+  <div class="selector-intro">
+    <div class="selector-eyebrow">
+      <span></span> Tu resultado <span></span>
+    </div>
+    <h1 class="selector-titulo">Tu <em>perfil energético</em><br>del espacio</h1>
+    <p class="selector-sub">Selecciona el perfil que corresponde a tu resultado del test para ver tu lectura completa y tu camino de transformación.</p>
+  </div>
+
+  <!-- TABS -->
+  <div class="perfil-tabs">
+    <div class="tab" onclick="mostrarPerfil('agua', this)">
+      <span class="tab-icono">🎵</span>
+      <span class="tab-nombre">Sonoterapia</span>
+      <span class="tab-elem">Calma</span>
+    </div>
+    <div class="tab" onclick="mostrarPerfil('tierra', this)">
+      <span class="tab-icono">🌿</span>
+      <span class="tab-nombre">Plantas</span>
+      <span class="tab-elem">Vitalidad</span>
+    </div>
+    <div class="tab" onclick="mostrarPerfil('fuego', this)">
+      <span class="tab-icono">🌸</span>
+      <span class="tab-nombre">Reiki</span>
+      <span class="tab-elem">Sanación</span>
+    </div>
+    <div class="tab" onclick="mostrarPerfil('eter', this)">
+      <span class="tab-icono">🔮</span>
+      <span class="tab-nombre">Cristales</span>
+      <span class="tab-elem">Protección</span>
+    </div>
+  </div>
+
+  <!-- ═══════════ PERFIL SONOTERAPIA ═══════════ -->
+  <div class="resultado" id="res-agua">
+    <div class="res-hero agua">
+      <div class="res-acento"></div>
+      <div class="res-icono-wrap">
+        <span class="res-icono">🎵</span>
+        <div class="res-meta">
+          <span class="res-tipo">Sonoterapia · Aromaterapia</span>
+          <h2 class="res-titulo">Tu espacio necesita<br><em>calma y fluidez</em></h2>
+        </div>
+      </div>
+      <p class="res-desc">
+        Tu hogar está absorbiendo y amplificando la energía mental acelerada que cargas. Cada vez que cruzas la puerta, en lugar de descansar, tu sistema nervioso sigue activado. <strong>No es que tú seas ansiosa — es que tu espacio no tiene la frecuencia vibratoria para contenerte.</strong> La sonoterapia con cuencos y la aromaterapia estratégica son las herramientas que tu hogar necesita para convertirse en tu refugio real.
+      </p>
+      <div class="senales">
+        <p class="senales-titulo">✦ Señales de tu espacio ahora</p>
+        <ul class="senales-lista">
+          <li><span class="check-icon">✓</span> Tu mente no desconecta cuando llegas a casa</li>
+          <li><span class="check-icon">✓</span> Los espacios de descanso no te generan verdadero reposo</li>
+          <li><span class="check-icon">✓</span> Sientes que el hogar "te pesa" en lugar de alivianar</li>
+          <li><span class="check-icon">✓</span> Hay zonas con energía estancada o densa</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="transformacion">
+      <p class="transform-eyebrow">✦ Tu transformación</p>
+      <h3 class="transform-titulo">Lo que cambia con <em>sonoterapia y aromaterapia</em></h3>
+      <p class="transform-texto">Misladys utiliza cuencos tibetanos para romper la energía densa acumulada en las paredes y esquinas del hogar, y aceites esenciales específicos para anclar nuevas frecuencias en cada ambiente. El sonido llega donde la vista no llega. <strong>Lo sientes en el cuerpo desde los primeros minutos.</strong></p>
+      <div class="antes-despues">
+        <div class="ad-col ad-antes">
+          <span class="ad-label">Hoy</span>
+          <ul class="ad-lista">
+            <li>Mente acelerada en casa</li>
+            <li>Dificultad para descansar</li>
+            <li>Espacio que agota</li>
+            <li>Sin punto de paz</li>
+          </ul>
+        </div>
+        <div class="ad-col ad-despues">
+          <span class="ad-label">Después</span>
+          <ul class="ad-lista">
+            <li>Cuerpo que suelta al entrar</li>
+            <li>Sueño más profundo</li>
+            <li>Espacio que recarga</li>
+            <li>Frecuencia de calma en casa</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="testimonio">
+      <span class="comilla">"</span>
+      <p class="testimonio-texto">Desde la sesión con Misladys entro a mi casa y literalmente siento que el cuerpo suelta. No sé cómo explicarlo pero es inmediato. Duermo diferente, me levanto diferente.</p>
+      <div class="testimonio-autor">
+        <div class="autor-avatar">LC</div>
+        <div>
+          <span class="estrellas">★★★★★</span>
+          <span class="autor-nombre">Laura C.</span>
+          <span class="autor-desc">Sonoterapia · Miami, FL</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="divisor"><div class="div-rombo"></div></div>
+    <div id="cta-agua"></div>
+  </div>
+
+  <!-- ═══════════ PERFIL PLANTAS ═══════════ -->
+  <div class="resultado" id="res-tierra">
+    <div class="res-hero tierra">
+      <div class="res-acento"></div>
+      <div class="res-icono-wrap">
+        <span class="res-icono">🌿</span>
+        <div class="res-meta">
+          <span class="res-tipo">Plantas · Energía Viva</span>
+          <h2 class="res-titulo">Tu espacio necesita<br><em>vitalidad y raíces</em></h2>
+        </div>
+      </div>
+      <p class="res-desc">
+        Tu hogar perdió conexión con la energía viva. Se siente apagado, estático, sin pulso. Y cuando vivimos en un espacio sin vitalidad, nosotros también la perdemos. <strong>No es que estés apagada — es que tu entorno no tiene vida real que te sostenga.</strong> Las plantas correctas en los lugares correctos son mucho más que decoración — son portales de energía viva.
+      </p>
+      <div class="senales">
+        <p class="senales-titulo">✦ Señales de tu espacio ahora</p>
+        <ul class="senales-lista">
+          <li><span class="check-icon">✓</span> El espacio se siente estático, sin movimiento</li>
+          <li><span class="check-icon">✓</span> Te cuesta encontrar motivación cuando estás en casa</li>
+          <li><span class="check-icon">✓</span> Zonas del hogar que evitas o sientes vacías</li>
+          <li><span class="check-icon">✓</span> Poca conexión con lo natural en tu entorno</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="transformacion">
+      <p class="transform-eyebrow">✦ Tu transformación</p>
+      <h3 class="transform-titulo">Lo que cambia con <em>plantas vivas</em> en tu espacio</h3>
+      <p class="transform-texto">Misladys no solo coloca plantas — las elige según la frecuencia que necesita cada zona del hogar, las ubica en los puntos de mayor impacto energético y las activa con intención. <strong>Cada planta es un ser vivo trabajando por la energía de tu hogar las 24 horas.</strong> La diferencia se siente en días.</p>
+      <div class="antes-despues">
+        <div class="ad-col ad-antes">
+          <span class="ad-label">Hoy</span>
+          <ul class="ad-lista">
+            <li>Casa sin energía</li>
+            <li>Motivación baja</li>
+            <li>Zonas sin vida</li>
+            <li>Desconexión del hogar</li>
+          </ul>
+        </div>
+        <div class="ad-col ad-despues">
+          <span class="ad-label">Después</span>
+          <ul class="ad-lista">
+            <li>Espacio vivo y activo</li>
+            <li>Energía que se renueva sola</li>
+            <li>Cada rincón con propósito</li>
+            <li>Raíces en tu hogar</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="testimonio">
+      <span class="comilla">"</span>
+      <p class="testimonio-texto">Mi casa era un lugar donde solo dormía. Después de la sesión empecé a querer estar en ella, invitar gente, cocinar. Algo se despertó que yo no sabía que estaba dormido.</p>
+      <div class="testimonio-autor">
+        <div class="autor-avatar">MR</div>
+        <div>
+          <span class="estrellas">★★★★★</span>
+          <span class="autor-nombre">María R.</span>
+          <span class="autor-desc">Plantas · Houston, TX</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="divisor"><div class="div-rombo"></div></div>
+    <div id="cta-tierra"></div>
+  </div>
+
+  <!-- ═══════════ PERFIL REIKI ═══════════ -->
+  <div class="resultado" id="res-fuego">
+    <div class="res-hero fuego">
+      <div class="res-acento"></div>
+      <div class="res-icono-wrap">
+        <span class="res-icono">🌸</span>
+        <div class="res-meta">
+          <span class="res-tipo">Reiki · Sanación Energética</span>
+          <h2 class="res-titulo">Tu espacio necesita<br><em>sanación y liberación</em></h2>
+        </div>
+      </div>
+      <p class="res-desc">
+        Tu hogar está guardando contigo los procesos emocionales que has vivido. Los espacios absorben todo lo que ocurre en ellos — las conversaciones, los lloros, los miedos, las pérdidas — y sin una limpieza energética profunda, ese peso se queda impregnado. <strong>Estás en un momento de transformación — y el Reiki sobre tu espacio puede liberar lo que ya no te pertenece.</strong>
+      </p>
+      <div class="senales">
+        <p class="senales-titulo">✦ Señales de tu espacio ahora</p>
+        <ul class="senales-lista">
+          <li><span class="check-icon">✓</span> El hogar guarda memorias emocionales pesadas</li>
+          <li><span class="check-icon">✓</span> Sensación de carga al entrar a ciertas habitaciones</li>
+          <li><span class="check-icon">✓</span> El espacio no acompaña tu proceso de cambio</li>
+          <li><span class="check-icon">✓</span> Dificultad para sentirte en paz dentro de casa</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="transformacion">
+      <p class="transform-eyebrow">✦ Tu transformación</p>
+      <h3 class="transform-titulo">Lo que cambia con <em>Reiki</em> en tu espacio</h3>
+      <p class="transform-texto">Misladys aplica Reiki directamente sobre el espacio — no solo sobre personas. Trabaja habitación por habitación liberando las memorias energéticas atrapadas, disolviendo los patrones emocionales que se quedaron en las paredes, y reconfigurando el campo energético del hogar para tu nueva etapa. <strong>Tu casa se convierte en el templo donde tu transformación puede florecer.</strong></p>
+      <div class="antes-despues">
+        <div class="ad-col ad-antes">
+          <span class="ad-label">Hoy</span>
+          <ul class="ad-lista">
+            <li>Carga emocional en casa</li>
+            <li>Pasado presente en el espacio</li>
+            <li>Espacio que no sana</li>
+            <li>Energía que frena</li>
+          </ul>
+        </div>
+        <div class="ad-col ad-despues">
+          <span class="ad-label">Después</span>
+          <ul class="ad-lista">
+            <li>Espacio limpio y renovado</li>
+            <li>Energía de nueva etapa</li>
+            <li>Hogar que te sostiene</li>
+            <li>Tu templo de sanación</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="testimonio">
+      <span class="comilla">"</span>
+      <p class="testimonio-texto">Pasé por una separación y mi casa guardaba todo eso. Misladys hizo algo que no sé cómo nombrarlo pero el espacio cambió. Yo cambié. Fue como cerrar un ciclo de verdad.</p>
+      <div class="testimonio-autor">
+        <div class="autor-avatar">SC</div>
+        <div>
+          <span class="estrellas">★★★★★</span>
+          <span class="autor-nombre">Sandra C.</span>
+          <span class="autor-desc">Reiki · Orlando, FL</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="divisor"><div class="div-rombo"></div></div>
+    <div id="cta-fuego"></div>
+  </div>
+
+  <!-- ═══════════ PERFIL CRISTALES ═══════════ -->
+  <div class="resultado" id="res-eter">
+    <div class="res-hero eter">
+      <div class="res-acento"></div>
+      <div class="res-icono-wrap">
+        <span class="res-icono">🔮</span>
+        <div class="res-meta">
+          <span class="res-tipo">Cristales · Geometría Sagrada</span>
+          <h2 class="res-titulo">Tu espacio necesita<br><em>protección y claridad</em></h2>
+        </div>
+      </div>
+      <p class="res-desc">
+        Tu hogar no tiene un campo energético protegido. Es permeable a las energías que entran y salen — de personas, situaciones, pensamientos ajenos — y eso te deja sin una base sólida. <strong>No es que seas demasiado sensible — es que tu espacio no tiene los cristales correctos sosteniendo su frecuencia.</strong> Los cristales bien ubicados crean ese escudo y esa claridad que buscas.
+      </p>
+      <div class="senales">
+        <p class="senales-titulo">✦ Señales de tu espacio ahora</p>
+        <ul class="senales-lista">
+          <li><span class="check-icon">✓</span> Las visitas te dejan sintiéndote agotada o alterada</li>
+          <li><span class="check-icon">✓</span> Dificultad para tomar decisiones cuando estás en casa</li>
+          <li><span class="check-icon">✓</span> El hogar no se siente completamente tuyo o protegido</li>
+          <li><span class="check-icon">✓</span> Dispersión mental que no cede al llegar a casa</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="transformacion">
+      <p class="transform-eyebrow">✦ Tu transformación</p>
+      <h3 class="transform-titulo">Lo que cambia con <em>cristales</em> en tu espacio</h3>
+      <p class="transform-texto">Misladys selecciona los cristales según la frecuencia que necesita cada zona de tu hogar — no por estética, sino por geometría sagrada y propiedades energéticas específicas. Los ubica en los puntos de mayor vulnerabilidad energética y los activa con intención. <strong>Cuando el espacio tiene su propio campo de protección, tú operás desde el poder.</strong></p>
+      <div class="antes-despues">
+        <div class="ad-col ad-antes">
+          <span class="ad-label">Hoy</span>
+          <ul class="ad-lista">
+            <li>Espacio sin protección</li>
+            <li>Energía ajena que entra</li>
+            <li>Dispersión constante</li>
+            <li>Sin base sólida</li>
+          </ul>
+        </div>
+        <div class="ad-col ad-despues">
+          <span class="ad-label">Después</span>
+          <ul class="ad-lista">
+            <li>Campo energético propio</li>
+            <li>Claridad para decidir</li>
+            <li>Foco y presencia</li>
+            <li>Tu poder desde casa</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="testimonio">
+      <span class="comilla">"</span>
+      <p class="testimonio-texto">Siempre sentía que mi casa era de todos menos mía. Después de la sesión algo la hizo mía de verdad. Tengo más claridad, más decisión, más yo en mi espacio.</p>
+      <div class="testimonio-autor">
+        <div class="autor-avatar">VT</div>
+        <div>
+          <span class="estrellas">★★★★★</span>
+          <span class="autor-nombre">Valeria T.</span>
+          <span class="autor-desc">Cristales · Tampa, FL</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="divisor"><div class="div-rombo"></div></div>
+    <div id="cta-eter"></div>
+  </div>
+
+  <!-- FOOTER -->
+  <div class="footer">
+    <p>© Espazio con Propósito · Misladys Rivero</p>
+  </div>
+
+</div>
+
+<script>
+// URL de la página de ventas
+const URL_VENTAS = 'https://zambranokrystina-ui.github.io/misladys.github.io/ventas.html';
+
+const ctaHTML = (perfil) => `
+  <div class="cta-final">
+    <div class="cta-acento-bg"></div>
+    <div class="cta-ornamento"><div class="cta-rombo"></div></div>
+    <p class="cta-eyebrow">✦ Tu próximo paso ✦</p>
+    <h3 class="cta-titulo">Tu hogar puede <em>transformarse</em><br>desde hoy</h3>
+    <p class="cta-texto">
+      La sesión 1:1 de armonización de espacios con Misladys está diseñada específicamente para tu perfil energético <strong>${perfil}</strong>. Una hora que cambia cómo te sientes en tu hogar para siempre.
+    </p>
+    <div class="sesion-incluye">
+      <span class="incluye-chip">✦ Sesión online 1:1</span>
+      <span class="incluye-chip">✦ Diagnóstico personalizado</span>
+      <span class="incluye-chip">✦ Plan de armonización</span>
+      <span class="incluye-chip">✦ Seguimiento post-sesión</span>
+    </div>
+    <div>
+      <a href="${URL_VENTAS}" class="btn-principal">
+        Quiero agendar mi sesión <span class="flecha">→</span>
+      </a>
+      <a href="https://wa.me/1TUNUMERO?text=Hola%20Misladys,%20hice%20el%20test%20y%20mi%20perfil%20es%20${perfil}.%20Quiero%20saber%20m%C3%A1s%20sobre%20la%20sesi%C3%B3n." class="btn-secundario">
+        Escribir por WhatsApp
+      </a>
+    </div>
+    <p class="cta-garantia">🌿 Cupos limitados · Sesión adaptada a tu perfil ${perfil}</p>
+  </div>
+`;
+
+// Inyectar CTAs
+['agua','tierra','fuego','eter'].forEach(p => {
+  const nombres = { agua:'Sonoterapia', tierra:'Plantas', fuego:'Reiki', eter:'Cristales' };
+  document.getElementById(`cta-${p}`).innerHTML = ctaHTML(nombres[p]);
+});
+
+function mostrarPerfil(id, tabEl) {
+  // ocultar todos
+  document.querySelectorAll('.resultado').forEach(r => r.classList.remove('visible'));
+  document.querySelectorAll('.tab').forEach(t => t.classList.remove('activo'));
+  // mostrar seleccionado
+  document.getElementById(`res-${id}`).classList.add('visible');
+  tabEl.classList.add('activo');
+  // scroll suave al resultado
+  setTimeout(() => {
+    document.getElementById(`res-${id}`).scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }, 50);
+}
+
+// Si viene con parámetro URL ?perfil=agua lo abre directo
+const params = new URLSearchParams(window.location.search);
+const perfilParam = params.get('perfil');
+if(perfilParam && ['agua','tierra','fuego','eter'].includes(perfilParam)) {
+  const tabIdx = { agua:0, tierra:1, fuego:2, eter:3 };
+  mostrarPerfil(perfilParam, document.querySelectorAll('.tab')[tabIdx[perfilParam]]);
+}
+</script>
+</body>
+</html>
