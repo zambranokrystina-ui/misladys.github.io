@@ -1,0 +1,829 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Servicios de Armonización · Espazio con Propósito</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --blanco:       #FDFAF5;
+  --crema:        #F5EDD8;
+  --crema2:       #EDE0C4;
+  --teal:         #2D7A7A;
+  --teal-claro:   #3D9999;
+  --teal-pale:    #EAF4F4;
+  --dorado:       #C8913A;
+  --dorado-claro: #E8C98A;
+  --terracota:    #C4613A;
+  --marron:       #5C3A2A;
+  --texto:        #2A2018;
+  --texto-suave:  #7A6A58;
+  --borde:        rgba(200,145,58,0.18);
+  --borde-teal:   rgba(45,122,122,0.15);
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body {
+  background: var(--blanco);
+  color: var(--texto);
+  font-family: 'Jost', sans-serif;
+  font-weight: 300;
+  overflow-x: hidden;
+}
+body::before {
+  content:'';
+  position:fixed; inset:0;
+  background:
+    radial-gradient(ellipse 70% 50% at 0% 0%,   rgba(45,122,122,0.06) 0%,transparent 55%),
+    radial-gradient(ellipse 60% 40% at 100% 100%,rgba(196,97,58,0.05) 0%,transparent 55%),
+    radial-gradient(ellipse 80% 60% at 50% 30%,  rgba(200,145,58,0.03) 0%,transparent 60%);
+  pointer-events:none; z-index:0;
+}
+
+/* ── LAYOUT ── */
+.contenedor {
+  position:relative; z-index:1;
+  max-width:720px;
+  margin:0 auto;
+  padding:0 24px 100px;
+}
+
+/* ── HEADER ── */
+.header {
+  text-align:center;
+  padding:44px 0 36px;
+  border-bottom:0.5px solid var(--borde);
+  margin-bottom:52px;
+}
+.logo-wrap {
+  width:72px; height:72px;
+  margin:0 auto 16px;
+  animation:flotar 6s ease-in-out infinite;
+}
+.logo-wrap img { width:100%; height:100%; object-fit:contain; }
+@keyframes flotar {
+  0%,100%{transform:translateY(0);}
+  50%{transform:translateY(-5px);}
+}
+.marca {
+  font-family:'Cormorant Garamond',serif;
+  font-size:12px;
+  letter-spacing:0.38em;
+  text-transform:uppercase;
+  color:var(--texto-suave);
+}
+
+/* ── HERO ── */
+.hero {
+  text-align:center;
+  margin-bottom:60px;
+}
+.eyebrow {
+  display:inline-flex;
+  align-items:center;
+  gap:10px;
+  font-size:11px;
+  font-weight:500;
+  letter-spacing:0.28em;
+  text-transform:uppercase;
+  color:var(--teal);
+  margin-bottom:20px;
+}
+.eyebrow span { width:24px; height:0.5px; background:var(--teal); opacity:0.5; }
+.hero-titulo {
+  font-family:'Cormorant Garamond',serif;
+  font-size:clamp(36px,7vw,54px);
+  font-weight:300;
+  line-height:1.15;
+  color:var(--texto);
+  margin-bottom:20px;
+  letter-spacing:-0.01em;
+}
+.hero-titulo em { font-style:italic; color:var(--teal); }
+.hero-sub {
+  font-size:16px;
+  line-height:1.8;
+  color:var(--texto-suave);
+  max-width:520px;
+  margin:0 auto 32px;
+}
+.ornamento {
+  display:flex; align-items:center; justify-content:center;
+  gap:14px; margin:28px 0; opacity:0.35;
+}
+.ornamento::before,.ornamento::after {
+  content:''; flex:1; max-width:70px; height:0.5px;
+}
+.ornamento::before { background:linear-gradient(90deg,transparent,var(--dorado)); }
+.ornamento::after  { background:linear-gradient(270deg,transparent,var(--dorado)); }
+.rombo { width:5px; height:5px; background:var(--dorado); transform:rotate(45deg); }
+
+/* aviso online */
+.aviso-online {
+  display:inline-flex;
+  align-items:center;
+  gap:8px;
+  background:var(--teal-pale);
+  border:0.5px solid var(--borde-teal);
+  border-radius:99px;
+  padding:9px 20px;
+  font-size:13px;
+  color:var(--teal);
+  margin-bottom:0;
+}
+.aviso-dot {
+  width:6px; height:6px;
+  border-radius:50%;
+  background:var(--teal);
+  animation:pulsar 2s ease-in-out infinite;
+}
+@keyframes pulsar {
+  0%,100%{opacity:1;transform:scale(1);}
+  50%{opacity:0.5;transform:scale(1.4);}
+}
+
+/* ── MISLADYS BIO ── */
+.bio-bloque {
+  background:#fff;
+  border:0.5px solid var(--borde);
+  border-radius:20px;
+  padding:36px 40px;
+  margin-bottom:52px;
+  display:flex;
+  gap:28px;
+  align-items:flex-start;
+  position:relative;
+  overflow:hidden;
+  box-shadow:0 2px 24px rgba(42,32,24,0.05);
+}
+.bio-bloque::before {
+  content:'';
+  position:absolute;
+  top:0; left:0; right:0; height:2px;
+  background:linear-gradient(90deg,var(--teal),var(--dorado),var(--terracota));
+  opacity:0.5;
+}
+.bio-avatar {
+  flex-shrink:0;
+  width:80px; height:80px;
+  border-radius:50%;
+  background:var(--teal-pale);
+  border:2px solid var(--teal-pale);
+  display:flex; align-items:center; justify-content:center;
+  font-family:'Cormorant Garamond',serif;
+  font-size:28px;
+  color:var(--teal);
+  overflow:hidden;
+}
+.bio-avatar img { width:100%; height:100%; object-fit:cover; }
+.bio-contenido {}
+.bio-nombre {
+  font-family:'Cormorant Garamond',serif;
+  font-size:22px;
+  font-weight:400;
+  color:var(--texto);
+  margin-bottom:4px;
+}
+.bio-titulo {
+  font-size:12px;
+  font-weight:500;
+  letter-spacing:0.2em;
+  text-transform:uppercase;
+  color:var(--teal-claro);
+  margin-bottom:12px;
+}
+.bio-texto {
+  font-size:14px;
+  line-height:1.8;
+  color:var(--texto-suave);
+}
+.bio-texto strong { color:var(--texto); font-weight:500; }
+
+/* ── SECCIÓN TÍTULO ── */
+.seccion-titulo {
+  text-align:center;
+  margin-bottom:36px;
+}
+.sec-eyebrow {
+  font-size:11px;
+  font-weight:500;
+  letter-spacing:0.28em;
+  text-transform:uppercase;
+  color:var(--teal);
+  margin-bottom:14px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:10px;
+}
+.sec-eyebrow::before,.sec-eyebrow::after {
+  content:''; width:32px; height:0.5px;
+  background:var(--teal); opacity:0.4;
+}
+.sec-h2 {
+  font-family:'Cormorant Garamond',serif;
+  font-size:clamp(28px,5vw,38px);
+  font-weight:300;
+  line-height:1.25;
+  color:var(--texto);
+}
+.sec-h2 em { font-style:italic; color:var(--teal); }
+
+/* ── TARJETA SERVICIO ── */
+.servicios { display:grid; gap:28px; margin-bottom:60px; }
+
+.servicio {
+  background:#fff;
+  border:0.5px solid var(--borde);
+  border-radius:20px;
+  overflow:hidden;
+  box-shadow:0 2px 28px rgba(42,32,24,0.05);
+  transition:transform 0.25s ease, box-shadow 0.25s ease;
+}
+.servicio:hover {
+  transform:translateY(-3px);
+  box-shadow:0 8px 40px rgba(42,32,24,0.09);
+}
+.serv-barra {
+  height:3px;
+  opacity:0.7;
+}
+.serv-sonido .serv-barra   { background:linear-gradient(90deg,#3D9999,#7BC8C8); }
+.serv-plantas .serv-barra  { background:linear-gradient(90deg,#5C7A2D,#9ABE5C); }
+.serv-reiki .serv-barra    { background:linear-gradient(90deg,#C4613A,#E8A070); }
+.serv-cristales .serv-barra{ background:linear-gradient(90deg,#7A5C9A,#B89AD4); }
+
+.serv-cuerpo {
+  padding:32px 36px 36px;
+}
+.serv-header {
+  display:flex;
+  align-items:flex-start;
+  justify-content:space-between;
+  gap:16px;
+  margin-bottom:20px;
+}
+.serv-icon-nombre {
+  display:flex;
+  align-items:center;
+  gap:14px;
+}
+.serv-icono {
+  font-size:32px;
+  line-height:1;
+  flex-shrink:0;
+}
+.serv-nombre {
+  font-family:'Cormorant Garamond',serif;
+  font-size:clamp(20px,3.5vw,26px);
+  font-weight:400;
+  line-height:1.2;
+  color:var(--texto);
+}
+.serv-nombre em { font-style:italic; color:var(--teal); }
+.serv-reiki .serv-nombre em  { color:var(--terracota); }
+.serv-plantas .serv-nombre em { color:#5C7A2D; }
+.serv-cristales .serv-nombre em { color:#7A5C9A; }
+
+.serv-precio-wrap { text-align:right; flex-shrink:0; }
+.serv-precio {
+  font-family:'Cormorant Garamond',serif;
+  font-size:32px;
+  font-weight:400;
+  color:var(--teal);
+  line-height:1;
+  display:block;
+}
+.serv-reiki .serv-precio { color:var(--terracota); }
+.serv-plantas .serv-precio { color:#5C7A2D; }
+.serv-cristales .serv-precio { color:#7A5C9A; }
+.serv-precio-label {
+  font-size:11px;
+  color:var(--texto-suave);
+  letter-spacing:0.1em;
+}
+
+.serv-ideal {
+  display:inline-flex;
+  align-items:center;
+  gap:6px;
+  background:var(--crema);
+  border:0.5px solid var(--borde);
+  border-radius:99px;
+  padding:6px 14px;
+  font-size:12px;
+  color:var(--texto-suave);
+  margin-bottom:20px;
+  font-style:italic;
+}
+.serv-ideal strong { font-style:normal; font-weight:500; color:var(--texto); }
+
+.serv-incluye-titulo {
+  font-size:11px;
+  font-weight:500;
+  letter-spacing:0.22em;
+  text-transform:uppercase;
+  color:var(--texto-suave);
+  margin-bottom:14px;
+}
+.serv-lista {
+  list-style:none;
+  margin-bottom:28px;
+}
+.serv-lista li {
+  display:flex;
+  align-items:flex-start;
+  gap:12px;
+  font-size:14px;
+  line-height:1.65;
+  color:var(--texto);
+  padding:8px 0;
+  border-bottom:0.5px solid rgba(45,122,122,0.08);
+}
+.serv-lista li:last-child { border-bottom:none; }
+.serv-check {
+  flex-shrink:0;
+  width:18px; height:18px;
+  border-radius:50%;
+  display:flex; align-items:center; justify-content:center;
+  font-size:10px;
+  color:#fff;
+  margin-top:2px;
+  font-weight:600;
+}
+.serv-sonido .serv-check    { background:var(--teal); }
+.serv-plantas .serv-check   { background:#5C7A2D; }
+.serv-reiki .serv-check     { background:var(--terracota); }
+.serv-cristales .serv-check { background:#7A5C9A; }
+
+.serv-footer {
+  display:flex;
+  align-items:center;
+  gap:12px;
+  flex-wrap:wrap;
+}
+.btn-reservar {
+  flex:1;
+  min-width:180px;
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  gap:8px;
+  padding:15px 24px;
+  border:none;
+  border-radius:12px;
+  font-family:'Jost',sans-serif;
+  font-size:13px;
+  font-weight:500;
+  letter-spacing:0.1em;
+  text-transform:uppercase;
+  cursor:pointer;
+  transition:all 0.22s ease;
+  text-decoration:none;
+  color:#fff;
+}
+.serv-sonido .btn-reservar    { background:var(--teal); }
+.serv-plantas .btn-reservar   { background:#5C7A2D; }
+.serv-reiki .btn-reservar     { background:var(--terracota); }
+.serv-cristales .btn-reservar { background:#7A5C9A; }
+.btn-reservar:hover { filter:brightness(1.1); transform:translateY(-1px); box-shadow:0 6px 20px rgba(0,0,0,0.15); }
+
+.btn-wa {
+  flex-shrink:0;
+  display:inline-flex;
+  align-items:center;
+  gap:7px;
+  padding:14px 18px;
+  background:none;
+  border:0.5px solid var(--borde-teal);
+  border-radius:12px;
+  font-family:'Jost',sans-serif;
+  font-size:13px;
+  color:var(--texto-suave);
+  cursor:pointer;
+  transition:all 0.2s;
+  text-decoration:none;
+}
+.btn-wa:hover { border-color:var(--teal); color:var(--teal); }
+
+.flecha { display:inline-block; animation:moverFlecha 1.6s ease-in-out infinite; }
+@keyframes moverFlecha { 0%,100%{transform:translateX(0);} 50%{transform:translateX(4px);} }
+
+/* ── FAQ ── */
+.faq-bloque {
+  margin-bottom:60px;
+}
+.faq-item {
+  border-bottom:0.5px solid var(--borde);
+}
+.faq-pregunta {
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:16px;
+  padding:20px 0;
+  cursor:pointer;
+  font-size:15px;
+  font-weight:400;
+  color:var(--texto);
+  transition:color 0.2s;
+  user-select:none;
+  list-style:none;
+}
+.faq-pregunta:hover { color:var(--teal); }
+.faq-pregunta::-webkit-details-marker { display:none; }
+.faq-icono {
+  flex-shrink:0;
+  width:22px; height:22px;
+  border:0.5px solid var(--borde-teal);
+  border-radius:50%;
+  display:flex; align-items:center; justify-content:center;
+  font-size:14px;
+  color:var(--teal);
+  transition:transform 0.25s;
+}
+details[open] .faq-icono { transform:rotate(45deg); }
+.faq-respuesta {
+  font-size:14px;
+  line-height:1.8;
+  color:var(--texto-suave);
+  padding:0 0 20px;
+  max-width:580px;
+}
+
+/* ── GARANTIA ── */
+.garantia {
+  background:linear-gradient(135deg,var(--teal-pale),rgba(232,201,138,0.1));
+  border:0.5px solid var(--borde-teal);
+  border-radius:20px;
+  padding:36px 40px;
+  text-align:center;
+  margin-bottom:52px;
+}
+.gar-icono { font-size:36px; margin-bottom:14px; display:block; }
+.gar-titulo {
+  font-family:'Cormorant Garamond',serif;
+  font-size:24px;
+  font-weight:300;
+  color:var(--texto);
+  margin-bottom:10px;
+}
+.gar-titulo em { font-style:italic; color:var(--teal); }
+.gar-texto {
+  font-size:14px;
+  line-height:1.8;
+  color:var(--texto-suave);
+  max-width:460px;
+  margin:0 auto;
+}
+
+/* ── CTA FINAL ── */
+.cta-final {
+  background:#fff;
+  border:0.5px solid var(--borde);
+  border-radius:20px;
+  padding:48px 40px;
+  text-align:center;
+  position:relative;
+  overflow:hidden;
+  box-shadow:0 4px 40px rgba(42,32,24,0.06);
+  margin-bottom:52px;
+}
+.cta-final::before {
+  content:'';
+  position:absolute;
+  top:0; left:0; right:0; height:2px;
+  background:linear-gradient(90deg,var(--teal),var(--dorado),var(--terracota));
+  opacity:0.6;
+}
+.cta-eyebrow {
+  font-size:11px; font-weight:500;
+  letter-spacing:0.28em; text-transform:uppercase;
+  color:var(--dorado); margin-bottom:16px;
+}
+.cta-titulo {
+  font-family:'Cormorant Garamond',serif;
+  font-size:clamp(26px,5vw,38px);
+  font-weight:300; line-height:1.25;
+  color:var(--texto); margin-bottom:14px;
+}
+.cta-titulo em { font-style:italic; color:var(--teal); }
+.cta-texto {
+  font-size:15px; line-height:1.8;
+  color:var(--texto-suave);
+  max-width:440px; margin:0 auto 32px;
+}
+.btn-cta-principal {
+  display:inline-flex;
+  align-items:center;
+  gap:10px;
+  padding:18px 40px;
+  background:var(--teal);
+  color:#fff;
+  border:none;
+  border-radius:12px;
+  font-family:'Jost',sans-serif;
+  font-size:14px;
+  font-weight:500;
+  letter-spacing:0.1em;
+  text-transform:uppercase;
+  cursor:pointer;
+  transition:all 0.22s ease;
+  text-decoration:none;
+}
+.btn-cta-principal:hover {
+  background:var(--teal-claro);
+  transform:translateY(-2px);
+  box-shadow:0 8px 28px rgba(45,122,122,0.28);
+}
+.cta-contacto {
+  margin-top:20px;
+  font-size:13px;
+  color:var(--texto-suave);
+}
+.cta-contacto a { color:var(--teal); text-decoration:none; }
+.cta-contacto a:hover { text-decoration:underline; }
+
+/* ── FOOTER ── */
+.footer {
+  text-align:center;
+  padding:32px 0 24px;
+  border-top:0.5px solid var(--borde);
+  opacity:0.5;
+}
+.footer p {
+  font-size:11px;
+  letter-spacing:0.22em;
+  text-transform:uppercase;
+  color:var(--texto-suave);
+  line-height:1.8;
+}
+
+/* ── RESPONSIVE ── */
+@media(max-width:560px){
+  .bio-bloque { flex-direction:column; padding:28px 24px; }
+  .serv-cuerpo { padding:24px 20px 28px; }
+  .serv-header { flex-direction:column; gap:12px; }
+  .serv-precio-wrap { text-align:left; }
+  .cta-final { padding:36px 24px; }
+  .garantia { padding:28px 20px; }
+}
+</style>
+</head>
+<body>
+<div class="contenedor">
+
+  <!-- HEADER -->
+  <div class="header">
+    <div class="logo-wrap">
+      <img src="https://i.ibb.co/TDRcVvxj/Dise-o-sin-t-tulo-6.png" alt="Espazio con Propósito">
+    </div>
+    <p class="marca">Espazio con Propósito</p>
+  </div>
+
+  <!-- HERO -->
+  <div class="hero">
+    <div class="eyebrow"><span></span> Servicios de armonización <span></span></div>
+    <h1 class="hero-titulo">Tu hogar puede <em>transformarse</em><br>desde hoy</h1>
+    <p class="hero-sub">Cada espacio guarda señales emocionales y energéticas únicas. Elige el servicio que corresponde a lo que necesita tu hogar y comienza tu proceso de armonización.</p>
+    <div class="ornamento"><div class="rombo"></div></div>
+    <div class="aviso-online">
+      <span class="aviso-dot"></span>
+      100% online · Sesiones personalizadas · Disponible ahora
+    </div>
+  </div>
+
+  <!-- BIO MISLADYS -->
+  <div class="bio-bloque">
+    <div class="bio-avatar">
+      <img src="https://i.ibb.co/TDRcVvxj/Dise-o-sin-t-tulo-6.png" alt="Misladys">
+    </div>
+    <div class="bio-contenido">
+      <p class="bio-nombre">Misladys Rivero</p>
+      <p class="bio-titulo">Coach en Diseño de Interiores Holístico</p>
+      <p class="bio-texto">Acompaño a personas que sienten que su hogar necesita un cambio, <strong>no solo externo, sino emocional y energético.</strong> Mi trabajo no se basa en fórmulas fijas — escucho, siento y comprendo qué necesita cada espacio según la persona que lo habita.</p>
+    </div>
+  </div>
+
+  <!-- SERVICIOS -->
+  <div class="seccion-titulo">
+    <p class="sec-eyebrow">4 caminos de armonización</p>
+    <h2 class="sec-h2">Elige el que <em>resuena</em> con tu espacio</h2>
+  </div>
+
+  <div class="servicios">
+
+    <!-- SONIDOS Y AROMAS -->
+    <div class="servicio serv-sonido">
+      <div class="serv-barra"></div>
+      <div class="serv-cuerpo">
+        <div class="serv-header">
+          <div class="serv-icon-nombre">
+            <span class="serv-icono">🎵</span>
+            <h3 class="serv-nombre">Sonidos<br>& <em>Aromas</em></h3>
+          </div>
+          <div class="serv-precio-wrap">
+            <span class="serv-precio">$150</span>
+            <span class="serv-precio-label">por sesión</span>
+          </div>
+        </div>
+        <div class="serv-ideal">
+          <strong>Ideal para:</strong> ansiedad, estrés, mente saturada, insomnio
+        </div>
+        <p class="serv-incluye-titulo">Incluye en tu sesión</p>
+        <ul class="serv-lista">
+          <li><span class="serv-check">✓</span> Sesión online guiada con sonido y aromas</li>
+          <li><span class="serv-check">✓</span> Limpieza energética profunda del espacio</li>
+          <li><span class="serv-check">✓</span> Recomendación de aromas personalizados para tu hogar</li>
+          <li><span class="serv-check">✓</span> Ritual de cierre energético</li>
+        </ul>
+        <div class="serv-footer">
+          <a href="https://www.espazioconproposito.com/paginadepago" class="btn-reservar">
+            Reservar ahora <span class="flecha">→</span>
+          </a>
+          <a href="https://wa.me/17862696910?text=Hola%20Misladys,%20me%20interesa%20la%20sesi%C3%B3n%20de%20Sonidos%20y%20Aromas" class="btn-wa">
+            💬 WhatsApp
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- PLANTAS Y NATURALEZA -->
+    <div class="servicio serv-plantas">
+      <div class="serv-barra"></div>
+      <div class="serv-cuerpo">
+        <div class="serv-header">
+          <div class="serv-icon-nombre">
+            <span class="serv-icono">🌿</span>
+            <h3 class="serv-nombre">Plantas<br>& <em>Naturaleza</em></h3>
+          </div>
+          <div class="serv-precio-wrap">
+            <span class="serv-precio">$150</span>
+            <span class="serv-precio-label">por sesión</span>
+          </div>
+        </div>
+        <div class="serv-ideal">
+          <strong>Ideal para:</strong> desconexión, baja energía, sensación de vacío
+        </div>
+        <p class="serv-incluye-titulo">Incluye en tu sesión</p>
+        <ul class="serv-lista">
+          <li><span class="serv-check">✓</span> Diagnóstico energético del espacio</li>
+          <li><span class="serv-check">✓</span> Guía de reorganización consciente</li>
+          <li><span class="serv-check">✓</span> Recomendación personalizada de plantas y su ubicación</li>
+          <li><span class="serv-check">✓</span> Activación energética de crecimiento</li>
+        </ul>
+        <div class="serv-footer">
+          <a href="https://www.espazioconproposito.com/paginadepago" class="btn-reservar">
+            Reservar ahora <span class="flecha">→</span>
+          </a>
+          <a href="https://wa.me/17862696910?text=Hola%20Misladys,%20me%20interesa%20la%20sesi%C3%B3n%20de%20Plantas%20y%20Naturaleza" class="btn-wa">
+            💬 WhatsApp
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- REIKI -->
+    <div class="servicio serv-reiki">
+      <div class="serv-barra"></div>
+      <div class="serv-cuerpo">
+        <div class="serv-header">
+          <div class="serv-icon-nombre">
+            <span class="serv-icono">🌸</span>
+            <h3 class="serv-nombre">Armonización<br><em>Energética con Reiki</em></h3>
+          </div>
+          <div class="serv-precio-wrap">
+            <span class="serv-precio">$160</span>
+            <span class="serv-precio-label">por sesión</span>
+          </div>
+        </div>
+        <div class="serv-ideal">
+          <strong>Ideal para:</strong> procesos emocionales, bloqueos, duelos, transiciones
+        </div>
+        <p class="serv-incluye-titulo">Incluye en tu sesión</p>
+        <ul class="serv-lista">
+          <li><span class="serv-check">✓</span> Sesión de Reiki aplicada a la persona y al espacio</li>
+          <li><span class="serv-check">✓</span> Trabajo energético con intención consciente</li>
+          <li><span class="serv-check">✓</span> Ordenar la energía cuando las emociones pesan</li>
+          <li><span class="serv-check">✓</span> Cierre y recomendaciones post sesión</li>
+        </ul>
+        <div class="serv-footer">
+          <a href="https://www.espazioconproposito.com/paginadepago" class="btn-reservar">
+            Reservar ahora <span class="flecha">→</span>
+          </a>
+          <a href="https://wa.me/17862696910?text=Hola%20Misladys,%20me%20interesa%20la%20sesi%C3%B3n%20de%20Reiki" class="btn-wa">
+            💬 WhatsApp
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- CRISTALES -->
+    <div class="servicio serv-cristales">
+      <div class="serv-barra"></div>
+      <div class="serv-cuerpo">
+        <div class="serv-header">
+          <div class="serv-icon-nombre">
+            <span class="serv-icono">🔮</span>
+            <h3 class="serv-nombre">Armonización<br><em>con Cristales</em></h3>
+          </div>
+          <div class="serv-precio-wrap">
+            <span class="serv-precio">$150</span>
+            <span class="serv-precio-label">por sesión</span>
+          </div>
+        </div>
+        <div class="serv-ideal">
+          <strong>Ideal para:</strong> protección, claridad, sostén energético
+        </div>
+        <p class="serv-incluye-titulo">Incluye en tu sesión</p>
+        <ul class="serv-lista">
+          <li><span class="serv-check">✓</span> Selección energética de cristales para tu espacio</li>
+          <li><span class="serv-check">✓</span> Activación y programación de cristales</li>
+          <li><span class="serv-check">✓</span> Guía de ubicación estratégica por zonas</li>
+          <li><span class="serv-check">✓</span> Ritual de intención personalizado</li>
+        </ul>
+        <div class="serv-footer">
+          <a href="https://www.espazioconproposito.com/paginadepago" class="btn-reservar">
+            Reservar ahora <span class="flecha">→</span>
+          </a>
+          <a href="https://wa.me/17862696910?text=Hola%20Misladys,%20me%20interesa%20la%20sesi%C3%B3n%20de%20Cristales" class="btn-wa">
+            💬 WhatsApp
+          </a>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- GARANTIA / POLÍTICA -->
+  <div class="garantia">
+    <span class="gar-icono">🌐</span>
+    <h3 class="gar-titulo">100% online · <em>La energía no tiene distancia</em></h3>
+    <p class="gar-texto">Todas las sesiones se realizan de manera virtual. La armonización se realiza a distancia a través de conexión energética e intención consciente — trabajando con la información de tu espacio (fotos, plano o dirección). La energía no está limitada por la distancia física.</p>
+  </div>
+
+  <!-- FAQ -->
+  <div class="seccion-titulo">
+    <p class="sec-eyebrow">Preguntas frecuentes</p>
+    <h2 class="sec-h2">Todo lo que necesitas <em>saber</em></h2>
+  </div>
+
+  <div class="faq-bloque">
+    <details>
+      <summary class="faq-pregunta">
+        ¿Cómo funciona una armonización online?
+        <span class="faq-icono">+</span>
+      </summary>
+      <p class="faq-respuesta">La armonización se realiza a distancia a través de conexión energética e intención consciente. Misladys trabaja con la información de tu espacio — dirección, fotos o plano — para intervenir energéticamente mediante cristales, sonido, aromaterapia y Reiki. La energía no está limitada por la distancia física.</p>
+    </details>
+    <details>
+      <summary class="faq-pregunta">
+        ¿Necesito estar presente durante la sesión?
+        <span class="faq-icono">+</span>
+      </summary>
+      <p class="faq-respuesta">No es obligatorio, pero es recomendable. Si puedes estar en el espacio durante la sesión, mejor. Si no, la armonización se realiza igual y luego recibirás recomendaciones para integrar la energía.</p>
+    </details>
+    <details>
+      <summary class="faq-pregunta">
+        ¿Qué necesito enviar antes de la sesión?
+        <span class="faq-icono">+</span>
+      </summary>
+      <p class="faq-respuesta">Generalmente se solicita: dirección del espacio, fotos actuales de las principales habitaciones y nombre completo de la persona responsable del lugar.</p>
+    </details>
+    <details>
+      <summary class="faq-pregunta">
+        ¿Es una práctica religiosa?
+        <span class="faq-icono">+</span>
+      </summary>
+      <p class="faq-respuesta">No. La armonización energética no pertenece a ninguna religión. Es una práctica energética y holística basada en intención, vibración y equilibrio.</p>
+    </details>
+    <details>
+      <summary class="faq-pregunta">
+        ¿Puede hacerse para negocios?
+        <span class="faq-icono">+</span>
+      </summary>
+      <p class="faq-respuesta">Sí. Es muy recomendable para oficinas, consultorios, locales comerciales y emprendimientos online que desean armonizar energía de abundancia, claridad y expansión.</p>
+    </details>
+  </div>
+
+  <!-- CTA FINAL -->
+  <div class="cta-final">
+    <p class="cta-eyebrow">✦ ¿No sabes cuál elegir? ✦</p>
+    <h3 class="cta-titulo">Escríbeme y <em>encontramos juntas</em><br>el camino para tu espacio</h3>
+    <p class="cta-texto">Si hiciste el test y no tienes claridad sobre cuál servicio es para ti, contáctame directamente. Con gusto te oriento sin compromiso.</p>
+    <a href="https://wa.me/17862696910?text=Hola%20Misladys,%20hice%20el%20test%20de%20armonizaci%C3%B3n%20y%20quisiera%20orientaci%C3%B3n%20sobre%20cu%C3%A1l%20servicio%20es%20el%20ideal%20para%20mi%20espacio" class="btn-cta-principal">
+      Escribir por WhatsApp <span class="flecha">→</span>
+    </a>
+    <p class="cta-contacto">O escríbenos a <a href="mailto:info@espazioproposito.com">info@espazioproposito.com</a></p>
+  </div>
+
+  <!-- FOOTER -->
+  <div class="footer">
+    <p>© 2026 Espazio con Propósito · Misladys Rivero</p>
+    <p>786-269-6910 · info@espazioproposito.com</p>
+  </div>
+
+</div>
+</body>
+</html>
